@@ -74,4 +74,4 @@ where `-1` is used to describe sort descending, from most recent and limit corre
 
 ### Vision API from Google Cloud
 
-We have used  ![Firebase ML Kit](https://firebase.google.com/docs/ml-kit/) for our Mobile application.
+We have used  [Firebase ML Kit](https://firebase.google.com/docs/ml-kit/) for our Mobile application.
