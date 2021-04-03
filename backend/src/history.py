@@ -18,9 +18,9 @@ def find_userid(email, db_uri):
         },
     ]
     
-    fetched_record = coll.aggregate(pipeline)
-    for search in fetched_record:
-        dd_id = search["_id"]
+    fetched_records = coll.aggregate(pipeline)
+    for record in fetched_records:
+        dd_id = record["_id"]
     return dd_id
 
 def recent_search_history(db_uri, email):

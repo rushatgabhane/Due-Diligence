@@ -47,6 +47,11 @@ A user will have a record of the type:
         "APPL",
         "TSL",
         "PLTR"
+    ],
+    "friends":[
+        "dd_id1",
+        "dd_id2",
+        ...
     ]
 }
 ```
