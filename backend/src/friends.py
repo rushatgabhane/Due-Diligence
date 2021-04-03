@@ -5,14 +5,14 @@ from dotenv import load_dotenv
 
 import pymongo
 
-def find_record(ID, db_uri):
+def find_record(record_id, db_uri):
     client = pymongo.MongoClient(db_uri)
     db = client["Main"]
     coll = db["User"]
     pipeline = [
     {
             "$match": {
-                "_id": ID
+                "_id": record_id
             },
         },
     ]
@@ -73,5 +73,5 @@ def add_dd_friend(user_id, friend_id, db_uri):
             if contains(friends, friend_id) == 0:
                 print("FRIEND ADDED!")
             else: 
-             print("FRIEND ALREADY ADDED")
+                print("FRIEND ALREADY ADDED")
 
