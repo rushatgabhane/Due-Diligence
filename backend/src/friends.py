@@ -8,7 +8,7 @@ import pymongo
 def find_record(record_id, db_uri):
     client = pymongo.MongoClient(db_uri)
     db = client["Main"]
-    coll = db["User"]
+    coll = db["user"]
     pipeline = [
     {
             "$match": {
@@ -27,7 +27,7 @@ def fetch_friends(user_id, db_uri):
     friends_list =[]
     client = pymongo.MongoClient(db_uri)
     db = client["Main"]
-    coll = db["User"]
+    coll = db["user"]
     pipeline = [
     {
             "$match": {
@@ -59,9 +59,10 @@ def contains(arr, element):
 def add_dd_friend(user_id, friend_id, db_uri):
     client = pymongo.MongoClient(db_uri)
     db = client["Main"]
-    coll = db["User"]
+    coll = db["user"]
     query = {"_id": user_id}
-    # I use the method $addToSet rather than $push, if the id already exist it will not be added
+    # I use the method $addToSet rather than $push, if the id already exists it will not be added
+    # to the set.
     newvalues = {"$addToSet":{ "friends": friend_id}}
     # update user record with _id =user_id with a new friend by appending
     # an dd_id = friend_id to the friends array

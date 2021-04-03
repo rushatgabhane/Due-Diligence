@@ -8,7 +8,7 @@ import pymongo
 def find_userid(email, db_uri):
     client = pymongo.MongoClient(db_uri)
     db = client["Main"]
-    coll = db["User"]
+    coll = db["user"]
 
     pipeline = [
     {
@@ -29,7 +29,7 @@ def recent_search_history(db_uri, email):
     # connect to mongo cluster using pymongo
     client = pymongo.MongoClient(db_uri)
     db = client["Main"]
-    coll = db["Histories"]
+    coll = db["histories"]
     pipeline = [
     {
             "$match": {
