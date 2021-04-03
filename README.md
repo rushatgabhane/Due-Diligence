@@ -1,4 +1,4 @@
-# DD - Due Diligience
+# DD - Due Diligence
 
 ## Concept 
 
