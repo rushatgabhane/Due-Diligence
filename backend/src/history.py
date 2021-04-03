@@ -2,7 +2,6 @@ import os
 from pprint import pprint
 import bson
 from dotenv import load_dotenv
-
 import pymongo
 
 
@@ -18,8 +17,6 @@ def find_userid(email, db_uri):
             },
         },
     ]
-
-
     
     fetched_record = coll.aggregate(pipeline)
     for search in fetched_record:
@@ -33,7 +30,6 @@ def recent_search_history(db_uri, email):
     client = pymongo.MongoClient(db_uri)
     db = client["Main"]
     coll = db["Histories"]
-
     pipeline = [
     {
             "$match": {
@@ -49,8 +45,6 @@ def recent_search_history(db_uri, email):
         "$limit":3
         }, 
     ]
-
-
     fetched_searches = coll.aggregate(pipeline)
     for search in fetched_searches:
         search_history_arr.append(search)
