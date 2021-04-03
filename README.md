@@ -18,7 +18,7 @@
 
 ### Db
 
-We used MongoDB Free Tier (512MB), and for this mobile application we made use of two collections: 
+We used MongoDB Free Tier (512MB) by following the instruction [here](https://docs.atlas.mongodb.com/tutorial/deploy-free-tier-cluster/), and for this mobile application we made use of two collections: 
 
 - User: identity records of the users who are using Due Diligence
 - Histories: containing search history of the user 
