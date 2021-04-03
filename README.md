@@ -71,3 +71,7 @@ db.Histories.aggregate([{$sort: {"timestamp":-1}}, {$limit:3}])
 ```
 
 where `-1` is used to describe sort descending, from most recent and limit correspond to the number of records returned.
+
+### Vision API from Google Cloud
+
+We have used  ![Firebase ML Kit](https://firebase.google.com/docs/ml-kit/) for our Mobile application.
