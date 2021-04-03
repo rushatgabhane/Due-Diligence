@@ -44,9 +44,9 @@ A user will have a record of the type:
     "investmentstyle": "growth", 
     "investmenthorizon": "2",
     "favourites":[
-        "APPL",
-        "TSL",
-        "PLTR"
+                "0" : "AAPL",
+                "1" : "GOOG",
+                "2" : "CVS"
     ],
     "friends":[
         "dd_id1",
