@@ -1,1 +1,7 @@
-# hackprinceton
+# Hackprinceton
+
+## Concept 
+
+## UI/UX 
+
+## Backend 
