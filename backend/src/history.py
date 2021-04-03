@@ -2,12 +2,31 @@ import os
 from pprint import pprint
 import bson
 from dotenv import load_dotenv
+
 import pymongo
 
 
+def find_userid(email, db_uri):
+    client = pymongo.MongoClient(db_uri)
+    db = client["Main"]
+    coll = db["User"]
+
+    pipeline = [
+    {
+            "$match": {
+                "email": email
+            },
+        },
+    ]
 
 
-def fetch_search_history(db_uri, email):
+    
+    fetched_record = coll.aggregate(pipeline)
+    for search in fetched_record:
+        dd_id = search["_id"]
+    return dd_id
+
+def recent_search_history(db_uri, email):
     search_history_arr =[]
     dd_id = find_userid(email, db_uri) #to be added 
     # connect to mongo cluster using pymongo
@@ -17,7 +36,9 @@ def fetch_search_history(db_uri, email):
 
     pipeline = [
     {
-            "$match": dd_id,
+            "$match": {
+                "dd_id": dd_id
+            },
         },
     {
         "$sort": {
