@@ -18,12 +18,14 @@ app = Flask(__name__)
 class User(db.Document):
     username = db.StringField()
     password = db.StringField()
+    email = db.StringField() #adding email address field to the document
     investmentstyle = db.StringField() #Choice of Value, Growth, Speculative
     investmenthorizon = db.StringField() #Choice of Day, Monthly, Annual, Long-Term
 
     def to_json(self): 
         return {
             "username": self.username,
+            "email":self.email, #adding email address field to JSON
             "investmentstyle": self.investmentstyle, 
             "investmenthorizon": self.investmenthorizon,
 
