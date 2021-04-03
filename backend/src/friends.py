@@ -45,3 +45,9 @@ def fetch_friends(user_id, db_uri):
         friends_list.append(friend_record)
 
     return friends_list
+
+
+
+def insert_friend(friend_id, db_uri):
+ 
+    # insert a friend to the list of friends
