@@ -59,12 +59,33 @@ def recent_search_history(db_uri, email):
 
 
 def create_history(payload, db_uri):
-        ## passing the stock payload
-        # if type(payload) == list():
-        #     # do
         client = pymongo.MongoClient(db_uri)
         db = client["Main"]
         coll = db["histories"]
+        ## passing the stock payload
+        if type(payload) == list:
+            for p in payload: 
+                p["timestamp"] = datetime.datetime.now()
+                if "_id" in p: 
+                    dd_id = p["_id"]
+                    del p["_id"]
+                elif "id" in p: 
+                    dd_id = p["id"]
+                    del p["id"]
+                if type(dd_id) == str:
+                    dd_id = ObjectId(dd_id)
+                elif type(dd_id) == bson.objectid.ObjectId: 
+                    dd_id = dd_id
+                p["dd_id"] = dd_id
+                insert_search_id = coll.insert(p)
+                if insert_search_id != None:
+                    print("SEARCH SUCCESSFULLY SAVED")
+                    print(insert_search_id)
+                    return insert_search_id
+                else:
+                    # print('STATUS 400, RECORD NOT FOUND')
+                    return  'HISTORY RECORD NOT SAVED'
+
         if type(payload) == dict:
             payload["timestamp"] = datetime.datetime.now()
             if "_id" in payload: 
