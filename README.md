@@ -18,18 +18,26 @@
 ## UI/UX 
 
 - Sign up with your username, password and email address
+
 ![Sign Up Page](./img/signup1.png)
+
 - Log in using your username and password 
+
 ![Login Page](./img/login1.png)
-- Give DD your preference
-DD will match you with users with similar interests 
+- Give DD your preference DD will match you with users with similar interests 
+
 ![DD Preference](./img/preference1.png)
-- DD will suggest up to 3 users you can chat with. If you wish to connect with them you can add them to your frinds list! By editing your profile, updating your preference and by snapping more picture we can procide a better match! 
-![Let's chat](./img/match1.png)
+
+- DD will suggest up to 3 users you can chat with. If you wish to connect with them you can add them to your frinds list! By editing your profile, updating your preference and by snapping more picture we can procide a better match!
+
+![Find friends](./img/match1.png)
 
 - Snap and get stocks!
+
 ![Take a picture](./img/snap1.png)
+
 ![](./img/car-label.png)
+
 - Chat
 ![Let's Chat!](./img/chat.png)
 
