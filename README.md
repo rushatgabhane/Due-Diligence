@@ -24,6 +24,7 @@
 - Log in using your username and password 
 
 ![Login Page](./img/login1.png)
+
 - Give DD your preference DD will match you with users with similar interests 
 
 ![DD Preference](./img/preference1.png)
@@ -34,7 +35,7 @@
 
 - Snap and get stocks!
 
-![Take a picture](./img/snap1.png)
+![Take a picture](./img/snap2.png)
 
 ![](./img/car-label.png)
 
