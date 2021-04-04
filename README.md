@@ -1,5 +1,5 @@
 # DD - Due Diligence
-
+ ![DD Home Page](./img/home.png)
 ## Concept
 
  DD - Due Diligence is a mobile application that enables users to learn about stocks and connecting with likeminded investors.
@@ -15,7 +15,7 @@
 5. The user can choose to either take more pictures or chat with another DD investor. DD matches users taking into account investement style, favourire stocks and other information. DD suggestes up to 3 DD connections  at the time. 
 
 ## UI/UX 
- ![DD Home Page](./img/home.png)
+
 - Sign up with your username, password and email address
 ![Sign Up Page](./img/signup.png)
 - Log in using your username and password 
