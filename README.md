@@ -42,7 +42,7 @@ A user will have a record of the type:
     "email": "user@hackprinceton.com",
     "password":"£$£&£%&$&%$*$*£%"%",
     "investmentstyle": "growth", 
-    "investmenthorizon": "2",
+    "investmenthorizon": "long term",  #or "short term
     "favourites":[
                 "0" : "AAPL",
                 "1" : "GOOG",
