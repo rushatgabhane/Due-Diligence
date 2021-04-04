@@ -27,13 +27,11 @@ DD will match you with users with similar interests
 - DD will suggest up to 3 users you can chat with. If you wish to connect with them you can add them to your frinds list! By editing your profile, updating your preference and by snapping more picture we can procide a better match! 
 ![Let's chat](./img/match1.png)
 
-- Get Stock! 
-![Get stock info](./img/stocks1.png)
-
-- Snap
+- Snap and get stocks!
 ![Take a picture](./img/snap1.png)
 ![](./img/car-label.png)
 - Chat
+![Let's Chat!](./img/chat.png)
 
 
 ## Backend 
