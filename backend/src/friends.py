@@ -2,7 +2,6 @@ import os
 from pprint import pprint
 import bson
 from dotenv import load_dotenv
-
 import pymongo
 
 def find_record(record_id, db_uri):
@@ -22,7 +21,7 @@ def find_record(record_id, db_uri):
     return dd_record
 
 
-def fetch_friends(user_id, db_uri):
+def fetch_friends_list(user_id, db_uri):
     friendsIDs = []
     friends_list =[]
     client = pymongo.MongoClient(db_uri)
@@ -38,7 +37,9 @@ def fetch_friends(user_id, db_uri):
 
     fetched_records = coll.aggregate(pipeline)
     for record in fetched_records:
-        friendsIDs = record["friends"]
+        #check if the field friends exist first 
+        if "friends" in record:
+            friendsIDs = record["friends"]
 
     for dd_id in friendsIDs:
         friend_record = find_record(dd_id, db_uri)
@@ -56,7 +57,7 @@ def contains(arr, element):
 # When the user with user_id clicks on `add` or `connect` the list of friends is updated 
 # and a new friend with id = friend_id is added to the list
 
-def add_dd_friend(user_id, friend_id, db_uri):
+def add_friend(user_id, friend_id, db_uri):
     client = pymongo.MongoClient(db_uri)
     db = client["Main"]
     coll = db["user"]
