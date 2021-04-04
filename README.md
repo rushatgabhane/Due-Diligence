@@ -2,7 +2,7 @@
  ![DD Home Page](./img/home.png)
 ## Concept
 
- DD - Due Diligence is a mobile application that enables users to learn about stocks and connecting with likeminded investors.
+ DD - Due Diligence is a mobile application that enables users to learn about stocks and connecting with likeminded investors by snapping pictures.
 
 **How Does it work?**
 
@@ -11,7 +11,7 @@
 1. The user snaps a picture
 2. The image is analysed using Google Cloud Vision  [ML Firebase Kit](https://firebase.google.com/docs/ml-kit) for mobile applications. 
 3. The content of the image is labelled or detected. 
-4. By using a Bayes Net Classifier Model and IEX Cloud API the user is provided with a list of stocks and companies relevant to the object contained in the picture.
+4. By using a Bayes Net Classifier Model and [IEX Cloud API](https://iexcloud.io/docs/api/) the user is provided with a list of stocks and companies relevant to the object contained in the picture.
 5. The user can choose to either take more pictures or chat with another DD investor. DD matches users taking into account investement style, favourire stocks and other information. DD suggestes up to 3 DD connections  at the time. 
 
 ## UI/UX 
