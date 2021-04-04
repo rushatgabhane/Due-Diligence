@@ -3,11 +3,16 @@ from pprint import pprint
 import bson
 from dotenv import load_dotenv
 import pymongo
+from bson.objectid import ObjectId
 
 def find_record(record_id, db_uri):
     client = pymongo.MongoClient(db_uri)
     db = client["Main"]
     coll = db["user"]
+    if type(record_id) == str:
+        record_id = ObjectId(record_id)
+    elif type(record_id) == bson.objectid.ObjectId: 
+        record_id = record_id
     pipeline = [
     {
             "$match": {
@@ -27,6 +32,10 @@ def fetch_friends_list(user_id, db_uri):
     client = pymongo.MongoClient(db_uri)
     db = client["Main"]
     coll = db["user"]
+    if type(user_id) == str:
+        user_id = ObjectId(user_id)
+    elif type(user_id) == bson.objectid.ObjectId: 
+        user_id = user_id
     pipeline = [
     {
             "$match": {
@@ -61,7 +70,20 @@ def add_friend(user_id, friend_id, db_uri):
     client = pymongo.MongoClient(db_uri)
     db = client["Main"]
     coll = db["user"]
-    query = {"_id": user_id}
+  
+    
+    #check type for user_id
+    if type(user_id) == str:
+        user_id = ObjectId(user_id)
+    elif type(user_id) == bson.objectid.ObjectId: 
+        user_id = user_id
+
+    #check type for friend_id
+    if type(friend_id) == str:
+        friend_id = ObjectId(user_id)
+    elif type(friend_id) == bson.objectid.ObjectId: 
+        friend_id = user_id
+      query = {"_id": user_id}
     # I use the method $addToSet rather than $push, if the id already exists it will not be added
     # to the set.
     newvalues = {"$addToSet":{ "friends": friend_id}}

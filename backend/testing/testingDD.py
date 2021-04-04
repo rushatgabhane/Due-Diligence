@@ -10,6 +10,7 @@ mongodb_pass = '4v38Z9oFAxnKm6SG'
 # load_dotenv(verbose=True)
 test_id = ObjectId("6068fada8ac8540613ea288c")
 friend_id = ObjectId("60690138e111b60d31e227a4")
+print(type(friend_id))
 email = "bob@gmail.com"
 db_uri = "mongodb+srv://princetonHacker:4v38Z9oFAxnKm6SG@princetonunihack.rvwct.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
@@ -114,13 +115,82 @@ def fetch_friends_list(user_id, db_uri):
         friends_list.append(friend_record)
 
     return friends_list
+# when updating profile, the front end should send a payload containing all the fields that have been filled
+# it must have an _id!
+def edit_profile(payload, db_uri):
+    client = pymongo.MongoClient(db_uri)
+    db = client["Main"]
+    coll = db["user"]
+    if "_id" in payload:
+        user_id = payload["_id"]    
+        if type(user_id) == str:
+            user_id = ObjectId(payload["_id"])
+        elif type(user_id) == bson.objectid.ObjectId: 
+            user_id = payload["_id"]
+        query = {"_id": user_id}
+        chck_existance = check_record_exist(query, db_uri)
+        if chck_existance == "exists":
+            test_query = coll.find(query)
+            if "favourites" in payload:
+                favourites = payload["favourites"]
+                newvalues = {"$set":{ "favourites": favourites}}
+                coll.update_one(query, newvalues)
+                check_status(test_query, "favourites", favourites)
+            if "investmenthorizon" in payload: 
+                horizon = payload["investmenthorizon"]
+                newvalues = {"$set":{ "investmenthorizon": horizon}}
+                coll.update_one(query, newvalues)
+                check_status(test_query, "investmenthorizon", horizon)
+            if  "investmentstyle" in payload:
+                style = payload["investmentstyle"]
+                newvalues = {"$set":{ "investmentstyle": style}}
+                coll.update_one(query, newvalues)
+                check_status(test_query, "investmentstyle", style)
+            else: 
+                print("ERR!! NO _id in the payload!")
+        else:
+            print("RECORD DOES NOT EXIST!")
 
 
+def check_status(db_query, key, value ):
+    for records in db_query:
+        if key  in records:
+            field = records[key]
+            if field == value:
+                print("RECORD UPDATED!")
+            else: 
+                print("RECORD NOT UPDATED")
+
+def check_record_exist(query, db_uri):
+    client = pymongo.MongoClient(db_uri)
+    db = client["Main"]
+    coll = db["user"]
+    fetched_records = coll.find(query)
+    for record in fetched_records:
+        dd_record = record
+        if dd_record != None: 
+            return "exists"
+        else:
+            return "does not exist"
+
+# When the user with user_id clicks on `add` or `connect` the list of friends is updated 
+# and a new friend with id = friend_id is added to the list
 
 def add_friend(user_id, friend_id, db_uri):
     client = pymongo.MongoClient(db_uri)
     db = client["Main"]
     coll = db["user"]
+    #check type for user_id
+    if type(user_id) == str:
+        user_id = ObjectId(user_id)
+    elif type(user_id) == bson.objectid.ObjectId: 
+        user_id = user_id
+
+    #check type for friend_id
+    if type(friend_id) == str:
+        friend_id = ObjectId(user_id)
+    elif type(friend_id) == bson.objectid.ObjectId: 
+        friend_id = user_id
     query = {"_id": user_id}
     # I use the method $addToSet rather than $push, if the id already exists it will not be added
     # to the set.
@@ -137,23 +207,13 @@ def add_friend(user_id, friend_id, db_uri):
                 else: 
                     print("FRIEND ALREADY ADDED")
 
+
+
 def contains(arr, element):
     if element in arr: 
         return 1 #true
     else:
         return 0 #false
-
-import pygame
-import pygame.camera
-
-
-def image_capture2():
-
-    pygame.camera.init()
-    cam = pygame.camera.Camera(0,(640,480))
-    cam.start()
-    img = cam.get_image()
-    pygame.image.save(img,"filename.jpg")
 
 
 if __name__ == "__main__":
@@ -162,7 +222,17 @@ if __name__ == "__main__":
     print("BEFORE ADDING FRIENDS!")
     friends = fetch_friends_list(test_id, db_uri)
     add_friend(test_id, friend_id, db_uri)
+    print("\n")
     print("AFTER ADDING FRIENDS!")
     friends = fetch_friends_list(test_id, db_uri)
-    print(friends)
-    image_capture2()
+    print("UPDATING PROFILE!")
+    test_payload = {
+     "_id": "6068fada8ac8540613ea288c",
+     "investmentstyle": "long term"
+    }
+    print("\n")
+    edit_profile(test_payload,db_uri)
+    print("TEST DONE!!")
+
+
+
