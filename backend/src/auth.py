@@ -38,4 +38,33 @@ def check_user_credentials(payload, db_uri):
 
 
 # insert user at sign up
+# username and email must be unique
+def create_user(payload, db_uri):
+    client = pymongo.MongoClient(db_uri)
+    non_unique_rec_arr = []
+    db = client["Main"]
+    coll = db["user"]
+    if "email" in payload and "username" in payload and "password" in payload:
+        # check if email is unique 
+        email = payload["email"]
+        pipeline_1 =  [{
+                "$match": {
+                    "email":  email
+                },
+        }]
+        fetched_records = coll.aggregate(pipeline_1)
+        for search in fetched_records:
+            non_unique_rec_arr.append(search)
+        if non_unique_rec_arr != []: 
+                return "Email or Username already used. Sign Up with a different email or Log In"
+        else: 
+            print("INSERTING NEW USER")
+            query = {"email": payload["email"], "username": payload["username"], "password": payload["password"]}
+            insert_record = coll.insert(query)
+            print("INSERTION SUCCESSFUL")
+            print(insert_record)
+            return insert_record
 
+    
+        
+            
