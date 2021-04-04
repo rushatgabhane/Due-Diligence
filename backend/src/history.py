@@ -57,3 +57,8 @@ def recent_search_history(db_uri, email):
     return search_history_arr
 
 
+
+    def update_history(payload, db_uri):
+        ## functio nbody here
+
+
