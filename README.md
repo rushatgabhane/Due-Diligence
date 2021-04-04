@@ -16,7 +16,7 @@
 
 ### server.py
 
-### Db
+### Database and Schema
 
 We used MongoDB Free Tier (512MB) by following the instruction [here](https://docs.atlas.mongodb.com/tutorial/deploy-free-tier-cluster/), and for this mobile application we made use of two collections: 
 
