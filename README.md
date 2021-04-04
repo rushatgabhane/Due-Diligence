@@ -38,8 +38,6 @@ DD will match you with users with similar interests
 
 ![Take a picture](./img/snap2.png)
 
-- Snap
-![Take a picture](./img/snap2.png)
 ![](./img/car-label.png)
 
 - Chat
