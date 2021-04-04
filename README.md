@@ -8,9 +8,11 @@
 
 ![Process](./img/graph.png)
 
-The user snaps a picture,  the image is analysed using Google Cloud Vision  [ML Firebase Kit](https://firebase.google.com/docs/ml-kit) for mobile applications. The content of the image is labelled or detected. By using a Bayes Net Classifier Model and IEX Cloud API the user is provided with a list of stocks and companies relevant to the object contained in the picture.
-
-The user can choose to either take more pictures or chat with one of the user. DD matches users taking into account investement style, favourire stocks and other information. DD suggestes up to 3 DD connectio to the user.  
+1. The user snaps a picture
+2. The image is analysed using Google Cloud Vision  [ML Firebase Kit](https://firebase.google.com/docs/ml-kit) for mobile applications. 
+3. The content of the image is labelled or detected. 
+4. By using a Bayes Net Classifier Model and IEX Cloud API the user is provided with a list of stocks and companies relevant to the object contained in the picture.
+5. The user can choose to either take more pictures or chat with another DD investor. DD matches users taking into account investement style, favourire stocks and other information. DD suggestes up to 3 DD connections  at the time. 
 
 ## UI/UX 
  ![DD Home Page](./img/home.png)
