@@ -12,6 +12,7 @@
 2. The image is analysed using Google Cloud Vision  [ML Firebase Kit](https://firebase.google.com/docs/ml-kit) for mobile applications. 
 3. The content of the image is labelled or detected. 
 4. By using a [Bayesian Network Classifier](https://en.wikipedia.org/wiki/Bayesian_network) Model and [IEX Cloud API](https://iexcloud.io/docs/api/) the user is provided with a list of stocks and companies relevant to the object contained in the picture.
+![Object detection using Vision API](./img/car-detect.png)
 5. The user can choose to either take more pictures or chat with another DD investor. DD matches users taking into account investement style, favourire stocks and other information. DD suggestes up to 3 DD connections  at the time. 
 
 ## UI/UX 
