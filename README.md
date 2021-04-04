@@ -34,6 +34,10 @@ DD will suggest up to 3 users you can chat with. If you wish to connect with the
 
 ### server.py
 
+`server.py` is primarely use for users registration by connecting to the database using `MongoEngine()`. A payload from the front-end containing username, password and email is used to insert a new record in the detabase.
+
+### src packages
+
 
 ### Database and Schema
 
