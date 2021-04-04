@@ -5,8 +5,6 @@
 
  DD - Due Diligence is a mobile application that enables users to learn about stocks and connecting with likeminded investors by snapping pictures.
 
- [![Watch the video](https://www.youtube.com/watch?v=ndo_xnluRaY)](https://www.youtube.com/watch?v=ndo_xnluRaY)
-
 **How Does it work?**
 
 ![Process](./img/graph.png)
