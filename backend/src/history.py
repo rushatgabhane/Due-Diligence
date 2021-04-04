@@ -3,6 +3,7 @@ from pprint import pprint
 import bson
 from dotenv import load_dotenv
 import pymongo
+from bson.objectid import ObjectId
 
 
 def find_userid(email, db_uri):
@@ -21,7 +22,12 @@ def find_userid(email, db_uri):
     fetched_records = coll.aggregate(pipeline)
     for record in fetched_records:
         dd_id = record["_id"]
-    return dd_id
+        if dd_id != None:
+            return dd_id
+        else: 
+            return "400, USER NOT FOUND"
+
+
 
 def recent_search_history(db_uri, email):
     search_history_arr =[]

@@ -70,8 +70,6 @@ def add_friend(user_id, friend_id, db_uri):
     client = pymongo.MongoClient(db_uri)
     db = client["Main"]
     coll = db["user"]
-  
-    
     #check type for user_id
     if type(user_id) == str:
         user_id = ObjectId(user_id)
@@ -83,7 +81,7 @@ def add_friend(user_id, friend_id, db_uri):
         friend_id = ObjectId(user_id)
     elif type(friend_id) == bson.objectid.ObjectId: 
         friend_id = user_id
-      query = {"_id": user_id}
+    query = {"_id": user_id}
     # I use the method $addToSet rather than $push, if the id already exists it will not be added
     # to the set.
     newvalues = {"$addToSet":{ "friends": friend_id}}
@@ -96,6 +94,7 @@ def add_friend(user_id, friend_id, db_uri):
                 friends = records["friends"]
                 if contains(friends, friend_id) == 0:
                     print("FRIEND ADDED!")
+                    return friend_id
                 else: 
-                    print("FRIEND ALREADY ADDED")
+                    return "FRIEND ALREADY EXIST IN THE LIST"
 

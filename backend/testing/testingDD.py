@@ -204,8 +204,9 @@ def add_friend(user_id, friend_id, db_uri):
                 friends = records["friends"]
                 if contains(friends, friend_id) == 0:
                     print("FRIEND ADDED!")
+                    return friend_id
                 else: 
-                    print("FRIEND ALREADY ADDED")
+                    return "FRIEND ALREADY EXIST IN THE LIST"
 
 
 
@@ -215,8 +216,43 @@ def contains(arr, element):
     else:
         return 0 #false
 
+def check_user_credentials(payload, db_uri):
+    client = pymongo.MongoClient(db_uri)
+    db = client["Main"]
+    coll = db["user"]
+    print("TEST CHECK")
+    if "_id" in payload and "username" in payload and "password" in payload:
+        print("TEST CHECK")
+        user_id = payload["_id"]    
+        if type(user_id) == str:
+            user_id = ObjectId(payload["_id"])
+        elif type(user_id) == bson.objectid.ObjectId: 
+            user_id = payload["_id"]
+        username = payload["username"]
+        password = payload["password"]
+        query = {"_id": user_id, "password": password, "username": username}
+        fetched_records = coll.find(query)
+        print("RECORD FETCHED")
+        for record in fetched_records:
+            dd_record = record
+            if dd_record != None: 
+                print(dd_record["_id"])
+                return dd_record["_id"]
+            else:
+                print('STATUS 400, RECORD NOT FOUND')
+                return  'STATUS 400, RECORD NOT FOUND'
+    else: 
+        print('STATUS 400, PROVIDE BOTH USERNAME, PASSWORD')
+        return 'STATUS 400, PROVIDE BOTH USERNAME, PASSWORD'
 
 if __name__ == "__main__":
+    print("CHECKING CREDENTIALS")
+    payload = {
+      "_id": "6068fada8ac8540613ea288c",
+      "username": "skyler",
+      "password" : "1234"
+    }
+    check_user_credentials(payload, db_uri)
     searches =  fetch_search_history()
     print(searches)
     print("BEFORE ADDING FRIENDS!")
@@ -227,8 +263,8 @@ if __name__ == "__main__":
     friends = fetch_friends_list(test_id, db_uri)
     print("UPDATING PROFILE!")
     test_payload = {
-     "_id": "6068fada8ac8540613ea288c",
-     "investmentstyle": "long term"
+        "_id": "6068fada8ac8540613ea288c",
+        "investmentstyle": "short term"
     }
     print("\n")
     edit_profile(test_payload,db_uri)
