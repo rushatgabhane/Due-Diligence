@@ -2,7 +2,9 @@
 
 ## Concept
 
-This is DD - Due Diligence a mobile application that enable user to learn about stocks and connecting with likeminded investors.
+ DD - Due Diligence is a mobile application that enable users to learn about stocks and connecting with likeminded investors
+
+ ![DD Home Page](./img/home.png)
 
 ## UI/UX 
 
