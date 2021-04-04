@@ -8,10 +8,13 @@
 
 ## UI/UX 
 
-- Sign up
+- Sign up with your username, password and email address
 ![Sign Up Page](./img/signup.png)
-- Log in 
-- Give details
+- Log in using your username and password 
+![Login Page](./img/login.png)
+- Give DD your preference
+DD will match you with users with similar interests 
+![DD Preference](./img/preference.png)
 - Connect 
 - Chat
 - Snap Stock! 
