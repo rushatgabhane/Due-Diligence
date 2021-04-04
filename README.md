@@ -1,6 +1,8 @@
 # DD - Due Diligence
 
-## Concept 
+## Concept
+
+This is DD - Due Diligence a mobile application that enable user to learn about stocks and connecting with likeminded investors.
 
 ## UI/UX 
 
@@ -15,6 +17,7 @@
 ## Backend 
 
 ### server.py
+
 
 ### Database and Schema
 
