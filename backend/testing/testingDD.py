@@ -4,6 +4,8 @@ import bson
 from dotenv import load_dotenv
 import pymongo
 from bson.objectid import ObjectId
+import datetime
+
 mongodb_pass = '4v38Z9oFAxnKm6SG'
 # db_name = "Main"
 # DB_URI = "mongodb+srv://s3kim2018:{}@cluster0.xfm8y.mongodb.net/{}?retryWrites=true&w=majority".format(mongodb_pass, db_name)
@@ -278,37 +280,71 @@ def create_user(payload, db_uri):
             print(insert_record)
             return insert_record
 
+
+def create_history(payload, db_uri):
+        ## passing the stock payload
+        # if type(payload) == list():
+        #     # do
+        client = pymongo.MongoClient(db_uri)
+        db = client["Main"]
+        coll = db["histories"]
+        if type(payload) == dict:
+            payload["timestamp"] = datetime.datetime.now()
+            if "_id" in payload: 
+                dd_id = payload["_id"]
+                del payload["_id"]
+            elif "id" in payload: 
+                dd_id = payload["id"]
+                del payload["id"]
+            if type(dd_id) == str:
+                dd_id = ObjectId(dd_id)
+            elif type(dd_id) == bson.objectid.ObjectId: 
+                dd_id = dd_id
+            payload["dd_id"] = dd_id
+            insert_search_id = coll.insert(payload)               
+            if insert_search_id != None:
+                print("SEARCH SUCCESSFULLY SAVED")
+                print(insert_search_id)
+                return insert_search_id
+            else:
+                # print('STATUS 400, RECORD NOT FOUND')
+                return  'HISTORY RECORD NOT SAVED'
+
 if __name__ == "__main__":
 
     payload = {
-        "email": "hacker@princeton.uni",
-        "username": "hacker",
-        "password": "1234"
-    }
-    print("TEST SIGN UP")
-    create_user(payload, db_uri)
-    print("CHECKING CREDENTIALS AT LOG IN")
-    payload = {
-      "_id": "6068fada8ac8540613ea288c",
-      "username": "skyler",
-      "password" : "1234"
-    }
-    check_user_credentials(payload, db_uri)
-    searches =  fetch_search_history()
-    print(searches)
-    print("BEFORE ADDING FRIENDS!")
-    friends = fetch_friends_list(test_id, db_uri)
-    add_friend(test_id, friend_id, db_uri)
-    print("\n")
-    print("AFTER ADDING FRIENDS!")
-    friends = fetch_friends_list(test_id, db_uri)
-    print("UPDATING PROFILE!")
-    test_payload = {
+        "stock": "TESLA",
         "_id": "6068fada8ac8540613ea288c",
-        "investmentstyle": "short term"
+        "symbol": "TSL",
+        "txt": "this is a test"
     }
-    print("\n")
-    edit_profile(test_payload,db_uri)
+    # print("TEST SIGN UP")
+    # create_user(payload, db_uri)
+    # print("CHECKING CREDENTIALS AT LOG IN")
+    # payload = {
+    #   "_id": "6068fada8ac8540613ea288c",
+    #   "username": "skyler",
+    #   "password" : "1234"
+    # }
+    # check_user_credentials(payload, db_uri)
+    print(type(payload))
+    print("create a history")
+    create_history(payload, db_uri)
+    # searches =  fetch_search_history()
+    # print(searches)
+    # print("BEFORE ADDING FRIENDS!")
+    # friends = fetch_friends_list(test_id, db_uri)
+    # add_friend(test_id, friend_id, db_uri)
+    # print("\n")
+    # print("AFTER ADDING FRIENDS!")
+    # friends = fetch_friends_list(test_id, db_uri)
+    # print("UPDATING PROFILE!")
+    # test_payload = {
+    #     "_id": "6068fada8ac8540613ea288c",
+    #     "investmentstyle": "short term"
+    # }
+    # print("\n")
+    # edit_profile(test_payload,db_uri)
     print("TEST DONE!!")
 
 
