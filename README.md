@@ -6,7 +6,7 @@
 
 **How Does it work?**
 
-![Process](./imh/graph.png)
+![Process](./img/graph.png)
 
 
 
