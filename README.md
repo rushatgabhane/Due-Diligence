@@ -25,6 +25,7 @@ DD will match you with users with similar interests
 ![DD Preference](./img/preference.png)
 - Connect 
 DD will suggest up to 3 users you can chat with. If you wish to connect with them you can add them to your frinds list!
+![Let's chat](./img/match)
 - Chat
 - Snap Stock! 
 ![Take a picture](./img/stocks.png)
