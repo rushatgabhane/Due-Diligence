@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "princeton-309701",
+  "private_key_id": "00df96ea392f6ae202cd4cf76bb22e333efadbdb",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCqi5KxRpdxzdRH\neb28zSeKH3sVf2xq96rtYzwTbCFos1LI3822jagO65lRUqd1nk7jF6+a7CAi7Nxf\nGF0IPhE8fnUxOsH1gS1w8p7dGPfh7B0jODpqYZq714n/CjiondH/wqdTKMifa763\nLs9kn/MEXtqrctocsIH8WfuELg6LooV2J6ne/7M+2dzlplorCYPc062jWoEqjGo6\nvljsyBs/Fra/sVN+Df4yt6f/Trt+kJJX6cGuGNGNW6gieLiF2JiBlFBa5e7xnBeJ\n22Cok1zofHte1TxDEdRqfP9Y5OG2CKqXYvUAMzwypyMVzlQaBvlDpQbieZOpYgR4\nUq30kDodAgMBAAECggEAKPPfm5itLKuFpk02UeQ8sqb5FjI1PWFwJtVtu2c7hYoM\nHsbZPdU5zi1mcVgE9NI5NMB/D1dUpzZT+7TcwCoxVuKx7wqiQTsOB6GHIuYIPjTF\n0WuC4YFDGAi7ryXL8beGEiGyrt4sANYtY40Gya27/Chv33wyonGDIS8VXcn2fbJ6\nJPS/kHaGbnp0Fw97d0bM3CLk+P03BCl3jwQVydDtI3exxiV+x9+dKjxjDCU/PZqY\nrPpupN97bX75G2EZS5MnQRaAoc099j4ZZbUZCVuFP0T0Cit4UclfJrrJsx4SBjZL\nFBJr1JzR1KBwZceqAUWYkrBNlMlfzje9pIgIdunqCQKBgQDiu8j3+TTxtlW3w8D6\nqGn6FHtAR9iQ5NY30sD0+JiQK0d3DFdEcUo9ZYqrF1dcrus+EHCykvv+sQKKK3Ar\nGQEptTP0KAxWxXyCqeEKZaGC4xYk6bAmJ7ktWWtnKAuElnnejRjGBflFfkFllpnP\nbIQKNxBTz/1t3BNbeNiN9hZhiQKBgQDAjxfKSnOcT1fYLjR4u3fr5AcnoE5uwmp1\nJHVhSaM3Lmzhr/B/mrSNBYQgWP1YqAvOwNUE6u93TCVHt4ws1hIGl1l4tLZrq3cw\no9SJStAi5KWNBQcMnFucM+CYT29ebZ1TtdbFDrh3TBmw4uSqmPbkfLVLYUR1riWV\ndfS0v+9S9QKBgQDBkOu7uAeZK772Saqg09LV61JlyHB9EsBHnCebe/hTbH9whRqj\nlcx5qgy+kAjHWZX/wG1WJuH3yAqRBxCV2p0BjG80TFRsZ+Eqc/lptOY0Jcar8M2v\nZU5UBvkIckmTAhw9AVxbApKS33zZS784ND5tsiDATNrhRXdJKlxGpgbpcQKBgCq9\n2GcDnaPdjL8kimseGaFXrSrjj2VQbDbyT8e3g64U9QAngHeijF8dEVXoyttp+az7\n6oy75UmSsle36zpsjfW+lJKRckh19+/o/Z036PlFzWV+7zCiaEdE0J6eSzcnl5tk\nKnb1LIb2cmFsC5u+dlcDQ26m+X4xmJATbazNSb8dAoGAW1nsRiO4nswu5/RSBMEV\neVd3pEtnNTdKXKePheWPxyJBZajqHleNuimcj7WxABJzdDuDa10fJ0ugz4fMEsFd\nQWcTyqyXoRuU5lGelfVbhlbfRHQczc+pAGivRixKZqHVp55yy6cpyQSKLIR5WKi6\nqTtZy9xH67cMRE3qfXDVg6U=\n-----END PRIVATE KEY-----\n",
+  "client_email": "brian-kim@princeton-309701.iam.gserviceaccount.com",
+  "client_id": "111364816369625110210",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/brian-kim%40princeton-309701.iam.gserviceaccount.com"
+}

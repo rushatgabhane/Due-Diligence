@@ -4,7 +4,10 @@ from hashlib import *
 from flask import Flask, request, render_template, url_for, make_response, jsonify, send_file, session
 from flask_mongoengine import MongoEngine
 import mongoengine as db 
+from google.cloud import vision
+import NaiveBayes as nb
 from constants import *
+import numpy as np
 import requests
 app = Flask(__name__)
 mongodb_pass = 'MyBiLU2HPTEYnoN5'
@@ -31,6 +34,7 @@ class User(db.Document):
             "investmenthorizon": self.investmenthorizon,
             "favourites": self.favourites
         }
+
 
 
 @app.route("/")
@@ -90,7 +94,85 @@ def logout():
     else:
         return make_response("User not logged in", 400)
 
+autokeyword = ['Car', 'Bus', 'Truck', 'Automobile', 'Wheel', 'Tire']
+electronickeyword = ['Phone', 'Refrigerator', 'Mobile phone', 'Television', 'Microwave', 'Laptop']
+jewelerykeyword = ['Earrings', 'Watch', 'Ring', "Necklace"]
+foodkeyword = ['Packaged goods', 'Food']
+depstorekeyword = ['Building']
+clothingkeyword = ['Shirts', 'Pants', 'Clothes', "Socks", "Jeans", "Shoes"]
+educationkeyword = ['Book', 'Textbook', 'Ruler', 'Pencil', 'Pen', 'Eraser']
+planekeyword = ['Airplane', 'Helicopter', 'Rocket']
+@app.route("/analyzeimage", methods = ['POST'])
+def analyzeimage():  ##RECOMMENDATION SYSTEM, SEND IMAGE AS BODY
+    ret = []
+    client = vision.ImageAnnotatorClient()
+    file = request.get_data() 
+    filemark = file
+    image = vision.Image(content=filemark)
+    objects = client.object_localization(image=image).localized_object_annotations
+    logos = client.logo_detection(image=image).logo_annotations
+
+    
+    for logo in logos:
+        print(logo.description)
+    if len(objects) == 0 and len(logos) == 0:
+        return make_response("No object found", 400)
+    else:
+        industry = ""
+        special = ""
+        for object in objects: 
+            print(object.name)
+            if object.name in autokeyword: 
+                industry = "sector?collectionName=Manufacturing"
+                special = "cars"
+            elif object.name in electronickeyword:
+                #industry = "Electronic Technology"
+                industry = "sector?collectionName=Technology"
+            elif object.name in jewelerykeyword:
+                industry = "tag?collectionName=Department%20Stores"
+            elif object.name in foodkeyword: 
+                industry = "collectionName=Food%20Retail"
+            elif object.name in depstorekeyword:
+                industry = "tag?collectionName=Department%20Stores"
+            elif object.name in clothingkeyword:
+                industry = "Clothing Accessories Stores"
+            elif object.name in educationkeyword:
+                industry = "tag?collectionName=Educational%20Services"
+            elif object.name in planekeyword: 
+                industry = "tag?collectionName=Airlines"
+        for logo in logos: 
+            response = requests.get('https://cloud.iexapis.com/stable/search/' + logo.description,
+            params={'token': 'sk_ac997761af19455d8588775994c0b03f'},
+            )
+            json_response = response.json()
+            for node in json_response: 
+                if node.get('exchange') == 'NAS':
+                    ret.append(node)
+        response = requests.get('https://cloud.iexapis.com/stable/stock/market/collection/' + industry + "&token=sk_ac997761af19455d8588775994c0b03f")
+        json_response = response.json()
+        res = []
+        print(industry)
+        if industry is not "":
+            for node in json_response:
+                if special == "cars":
+                    if node.get('symbol') == 'TSLA' or node.get('symbol') == 'GM' or node.get('symbol') == 'F':
+                        res.append(node)
+                elif (node.get('primaryExchange') == 'NEW YORK STOCK EXCHANGE, INC.' or node.get('primaryExchange') == 'US OTC') and node.get('marketCap') != None:
+                    res.append(node)
+            res.sort(key = lambda x: int(x.get('marketCap')))
+            res.reverse()
+        if len(res) > 3:
+            ret += res[0:3]
+        else: 
+            ret += res 
+        response = app.response_class(response=json.dumps(ret), status=200, mimetype='application/json')
+        return response
+
+
+
 if __name__ == '__main__':
     app.secret_key = 'super secret key'
     app.config['SESSION_TYPE'] = 'filesystem'
     app.run(debug = True)
+
+
