@@ -39,8 +39,8 @@ DD will suggest up to 3 users you can chat with. If you wish to connect with the
 
 We used MongoDB Free Tier (512MB) by following the instruction [here](https://docs.atlas.mongodb.com/tutorial/deploy-free-tier-cluster/), and for this mobile application we made use of two collections: 
 
-- User: identity records of the users who are using Due Diligence
-- Histories: containing search history of the user 
+- user: identity records of the users who are using Due Diligence
+- histories: containing search history of the user 
 
 Note to create the collection simply use the following command:
 
@@ -75,7 +75,7 @@ A user will have a record of the type:
 }
 ```
 
-Whenever the user generates a serch, the history will be stored in `db.Histories` with a userid corresponding to the "_id" of the user in the `User` collection. The `timestamp` will be used to fetch the history search of the user with respect to the most recent. The record will be of the type:
+Whenever the user generates a serch, the history will be stored in `db.histories` with a dd_id corresponding to the "_id" of the user in the `User` collection. The `timestamp` will be used to fetch the history search of the user with respect to the most recent. The record will be of the type:
 
 ```
 
@@ -95,6 +95,11 @@ db.Histories.aggregate([{$sort: {"timestamp":-1}}, {$limit:3}])
 ```
 
 where `-1` is used to describe sort descending, from most recent and limit correspond to the number of records returned.
+
+This functionality using 
+```
+from src.history import recent_search_history as fetch_history
+```
 
 ### Vision API from Google Cloud
 
