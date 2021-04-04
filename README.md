@@ -31,7 +31,7 @@ DD will match you with users with similar interests
 ![Get stock info](./img/stocks1.png)
 
 - Snap
-![Take a picture](./img/snap1.png)
+![Take a picture](./img/snap2.png)
 ![](./img/car-label.png)
 - Chat
 
