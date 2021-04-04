@@ -70,10 +70,10 @@ def add_friend(user_id, friend_id, db_uri):
     coll.update_one(query, newvalues)
     #confirmation 
     for records in coll.find(query):
-        for record in records:
-            friends = record["friends"]
-            if contains(friends, friend_id) == 0:
-                print("FRIEND ADDED!")
-            else: 
-                print("FRIEND ALREADY ADDED")
+            if "friends" in records:
+                friends = records["friends"]
+                if contains(friends, friend_id) == 0:
+                    print("FRIEND ADDED!")
+                else: 
+                    print("FRIEND ALREADY ADDED")
 
