@@ -23,12 +23,14 @@
 - Give DD your preference
 DD will match you with users with similar interests 
 ![DD Preference](./img/preference.png)
-- Connect 
-DD will suggest up to 3 users you can chat with. If you wish to connect with them you can add them to your frinds list!
+- DD will suggest up to 3 users you can chat with. If you wish to connect with them you can add them to your frinds list! By editing your profile, updating your preference and by snapping more picture we can procide a better match! 
 ![Let's chat](./img/match.png)
+
+- Get Stock! 
+![Get stock info](./img/stocks.png)
+- Snap
+![Take a picture](./img/snap.png)
 - Chat
-- Snap Stock! 
-![Take a picture](./img/stocks.png)
 
 
 ## Backend 
