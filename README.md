@@ -25,7 +25,8 @@
 
 ![Login Page](./img/login1.png)
 
-- Give DD your preference DD will match you with users with similar interests 
+- Give DD your preference 
+DD will match you with users with similar interests 
 
 ![DD Preference](./img/preference1.png)
 
@@ -37,11 +38,12 @@
 
 ![Take a picture](./img/snap2.png)
 
+- Snap
+![Take a picture](./img/snap2.png)
 ![](./img/car-label.png)
 
 - Chat
-![Let's Chat!](./img/chat.png)
-
+![Chat with matched users](./img/chat.png)
 
 ## Backend 
 
