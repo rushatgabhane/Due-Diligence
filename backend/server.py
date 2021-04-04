@@ -10,8 +10,10 @@ from constants import *
 import numpy as np
 import requests
 import random
+import os
 app = Flask(__name__)
-mongodb_pass = 'MyBiLU2HPTEYnoN5'
+#set up an env variable in your local machine for the mongosb password
+mongodb_pass = os.environ["MONGO_PWD"]
 db_name = "Main"
 DB_URI = "mongodb+srv://Brian:{}@princetonunihack.rvwct.mongodb.net/{}?retryWrites=true&w=majority".format(mongodb_pass, db_name)
 app.config["MONGODB_HOST"] = DB_URI

@@ -5,53 +5,58 @@ from dotenv import load_dotenv
 import pymongo
 from bson.objectid import ObjectId
 import datetime
+import time
+
 
 mongodb_pass = '4v38Z9oFAxnKm6SG'
 # db_name = "Main"
 # DB_URI = "mongodb+srv://s3kim2018:{}@cluster0.xfm8y.mongodb.net/{}?retryWrites=true&w=majority".format(mongodb_pass, db_name)
 # load_dotenv(verbose=True)
-test_id = ObjectId("6068fada8ac8540613ea288c")
+
 friend_id = ObjectId("60690138e111b60d31e227a4")
 print(type(friend_id))
-email = "bob@gmail.com"
+email = "hacker@princeton"
 db_uri = "mongodb+srv://princetonHacker:4v38Z9oFAxnKm6SG@princetonunihack.rvwct.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
 def find_userid(email):
-    print("FOUND")
+    pipeline = []
     client = pymongo.MongoClient(db_uri)
     db = client["Main"]
     coll = db["user"]
-    print("FOUND")
-    pipeline = [
-    {
-            "$match": {
-                "email": email,
-                "username": "skyler"
-            },
-        },
+    if email == "hacker@princeton":
+        pipeline = [
+            {
+                    "$match": {
+                        "email": email,
+                        "username": "princetonhacker"
+                    },
+                },
     ]
-
-    print("FOUND 3")
+    elif email =="hacker@cambridge":
+        pipeline = [
+            {
+                    "$match": {
+                        "email": email,
+                        "username": "cambridgehacker"
+                    },
+                },
+    ]
     
     fetched_record = coll.aggregate(pipeline)
-    print("FOUND 3")
     for search in fetched_record:
-        print("FOUND 3")
-        print(search)
-        dd_id = search["_id"]
-        print(dd_id)
-    return dd_id
+        pprint(search)
+        dd2_id = search["_id"]
+        print("\n")
+        print(dd2_id)
+        return dd2_id
 
-def fetch_search_history():
-    print("TEST 1")
+def fetch_search_history(email):
     # connect to mongo cluster using pymongo
     search_history_arr = []
     client = pymongo.MongoClient("mongodb+srv://princetonHacker:4v38Z9oFAxnKm6SG@princetonunihack.rvwct.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
     db = client["Main"]
     coll = db["histories"]
-    print("TEST 2")
     dd_id = find_userid(email)
-    print("TEST 3")
     pipeline = [
         {
             "$match": {
@@ -89,7 +94,7 @@ def find_record(record_id, db_uri):
     fetched_records = coll.aggregate(pipeline)
     for record in fetched_records:
         dd_record = record
-    return dd_record
+        return dd_record
 
 
 def fetch_friends_list(user_id, db_uri):
@@ -125,29 +130,33 @@ def edit_profile(payload, db_uri):
     coll = db["user"]
     if "_id" in payload:
         user_id = payload["_id"]    
-        if type(user_id) == str:
-            user_id = ObjectId(payload["_id"])
-        elif type(user_id) == bson.objectid.ObjectId: 
-            user_id = payload["_id"]
+        # if type(user_id) == str:
+        #     user_id = ObjectId(payload["_id"])
+        # elif type(user_id) == bson.objectid.ObjectId: 
+        #     user_id = payload["_id"]
         query = {"_id": user_id}
         chck_existance = check_record_exist(query, db_uri)
         if chck_existance == "exists":
             test_query = coll.find(query)
             if "favourites" in payload:
                 favourites = payload["favourites"]
+                print("- Updating favourites")
                 newvalues = {"$set":{ "favourites": favourites}}
                 coll.update_one(query, newvalues)
                 check_status(test_query, "favourites", favourites)
             if "investmenthorizon" in payload: 
                 horizon = payload["investmenthorizon"]
+                print("- Updating investment horizon")
                 newvalues = {"$set":{ "investmenthorizon": horizon}}
                 coll.update_one(query, newvalues)
                 check_status(test_query, "investmenthorizon", horizon)
             if  "investmentstyle" in payload:
                 style = payload["investmentstyle"]
+                print("- Updating investment style")
                 newvalues = {"$set":{ "investmentstyle": style}}
                 coll.update_one(query, newvalues)
                 check_status(test_query, "investmentstyle", style)
+                
             else: 
                 print("ERR!! NO _id in the payload!")
         else:
@@ -183,19 +192,20 @@ def add_friend(user_id, friend_id, db_uri):
     db = client["Main"]
     coll = db["user"]
     #check type for user_id
-    if type(user_id) == str:
-        user_id = ObjectId(user_id)
-    elif type(user_id) == bson.objectid.ObjectId: 
-        user_id = user_id
+    # if type(user_id) == str:
+    #     user_id = ObjectId(user_id)
+    # elif type(user_id) == bson.objectid.ObjectId: 
+    #     user_id = user_id
 
     #check type for friend_id
-    if type(friend_id) == str:
-        friend_id = ObjectId(user_id)
-    elif type(friend_id) == bson.objectid.ObjectId: 
-        friend_id = user_id
+    # if type(friend_id) == str:
+    #     friend_id = ObjectId(user_id)
+    # elif type(friend_id) == bson.objectid.ObjectId: 
+    #     friend_id = user_id
     query = {"_id": user_id}
     # I use the method $addToSet rather than $push, if the id already exists it will not be added
     # to the set.
+    friend_id = ObjectId("60690138e111b60d31e227a4")
     newvalues = {"$addToSet":{ "friends": friend_id}}
     # update user record with _id =user_id with a new friend by appending
     # an dd_id = friend_id to the friends array
@@ -205,7 +215,7 @@ def add_friend(user_id, friend_id, db_uri):
             if "friends" in records:
                 friends = records["friends"]
                 if contains(friends, friend_id) == 0:
-                    print("FRIEND ADDED!")
+                    print("Friend added!")
                     return friend_id
                 else: 
                     return "FRIEND ALREADY EXIST IN THE LIST"
@@ -222,7 +232,7 @@ def check_user_credentials(payload, db_uri):
     client = pymongo.MongoClient(db_uri)
     db = client["Main"]
     coll = db["user"]
-    print("TEST CHECK")
+    # print("TEST CHECK")
     if "_id" in payload and "username" in payload and "password" in payload:
         print("TEST CHECK")
         user_id = payload["_id"]    
@@ -234,17 +244,17 @@ def check_user_credentials(payload, db_uri):
         password = payload["password"]
         query = {"_id": user_id, "password": password, "username": username}
         fetched_records = coll.find(query)
-        print("RECORD FETCHED")
+        # print("RECORD FETCHED")
         for record in fetched_records:
             dd_record = record
             if dd_record != None: 
-                print(dd_record["_id"])
+                # print(dd_record["_id"])
                 return dd_record["_id"]
             else:
-                print('STATUS 400, RECORD NOT FOUND')
+                # print('STATUS 400, RECORD NOT FOUND')
                 return  'STATUS 400, RECORD NOT FOUND'
     else: 
-        print('STATUS 400, PROVIDE BOTH USERNAME, PASSWORD')
+        # print('STATUS 400, PROVIDE BOTH USERNAME, PASSWORD')
         return 'STATUS 400, PROVIDE BOTH USERNAME, PASSWORD'
 
 
@@ -256,7 +266,6 @@ def create_user(payload, db_uri):
     db = client["Main"]
     coll = db["user"]
     if "email" in payload and "username" in payload and "password" in payload:
-        print("FIELD EXISTS")
         # check if email is unique 
         email = payload["email"]
         pipeline_1 =  [{
@@ -273,11 +282,10 @@ def create_user(payload, db_uri):
                 print("Email or Username already used. Sign Up with a different email or Log In")
                 return "Email or Username already used. Sign Up with a different email or Log In"
         else: 
-            print("INSERTING NEW USER")
-            query = {"email": payload["email"], "username": payload["username"], "password": payload["password"]}
-            insert_record = coll.insert(query)
-            print("INSERTION SUCCESSFUL")
-            print(insert_record)
+            print("CREATING A RECORD FOR HACKPRINCETON....")
+            query = {"email": payload["email"], "username": payload["username"], "password": payload["password"], "investmentstyle": payload["investmentstyle"], "investmenthorizon": payload["investmenthorizon"], "friends":payload["friends"], "favourites": payload["favourites"]}
+            insert_record = coll.insert_one(query)
+            print("SUCCESS, new record has been created!")
             return insert_record
 
 
@@ -295,19 +303,19 @@ def create_history(payload, db_uri):
                 elif "id" in p: 
                     dd_id = p["id"]
                     del p["id"]
-                if type(dd_id) == str:
-                    dd_id = ObjectId(dd_id)
-                elif type(dd_id) == bson.objectid.ObjectId: 
-                    dd_id = dd_id
+                # if type(dd_id) == str:
+                #     dd_id = ObjectId(dd_id)
+                # elif type(dd_id) == bson.objectid.ObjectId: 
+                #     dd_id = dd_id
                 p["dd_id"] = dd_id
-                insert_search_id = coll.insert(p)
+                insert_search_id = coll.insert_one(p)
                 if insert_search_id != None:
-                    print("SEARCH SUCCESSFULLY SAVED")
-                    print(insert_search_id)
+                    print("Search succesfully saved")
+                    pprint(insert_search_id)
                     return insert_search_id
                 else:
                     # print('STATUS 400, RECORD NOT FOUND')
-                    return  'HISTORY RECORD NOT SAVED'
+                    return  'ERROR! HISTORY RECORD NOT SAVED'
 
         if type(payload) == dict:
             payload["timestamp"] = datetime.datetime.now()
@@ -317,56 +325,109 @@ def create_history(payload, db_uri):
             elif "id" in payload: 
                 dd_id = payload["id"]
                 del payload["id"]
-            if type(dd_id) == str:
-                dd_id = ObjectId(dd_id)
-            elif type(dd_id) == bson.objectid.ObjectId: 
-                dd_id = dd_id
+            # if type(dd_id) == str:
+            #     dd_id = ObjectId(dd_id)
+            # elif type(dd_id) == bson.objectid.ObjectId: 
+            #     dd_id = dd_id
             payload["dd_id"] = dd_id
-            insert_search_id = coll.insert(payload)
+            insert_search_id = coll.insert_one(payload)
             if insert_search_id != None:
-                print("SEARCH SUCCESSFULLY SAVED")
+                print("Search succesfully saved")
                 print(insert_search_id)
                 return insert_search_id
             else:
                 # print('STATUS 400, RECORD NOT FOUND')
-                return  'HISTORY RECORD NOT SAVED'
+                return  'ERROR! HISTORY RECORD NOT SAVED'
 
 if __name__ == "__main__":
-
-    payload = [{
-        "stock": "APPLE",
-        "_id": "6068fada8ac8540613ea288c",
-        "symbol": "APPL",
-        "txt": "this is a test"
-    }]
-    # print("TEST SIGN UP")
-    # create_user(payload, db_uri)
-    # print("CHECKING CREDENTIALS AT LOG IN")
-    # payload = {
-    #   "_id": "6068fada8ac8540613ea288c",
-    #   "username": "skyler",
-    #   "password" : "1234"
-    # }
-    # check_user_credentials(payload, db_uri)
-    print(type(payload))
-    print("create a history")
+    print("1: SIGN UP, username: princetonhacker, email: hacker@princeton, password: `hack1234`}'")
+    payload = {
+        "username": "princetonhacker",
+        "email": "hacker@princeton",
+        "password": "hack1234",
+        "investmentstyle": "growth term",
+        "investmenthorizon": "long term",
+        "friends":[],
+        "favourites":[
+            {
+                "0": "TSL",
+                "1": "AAPL",
+                "2": "HPQ"
+            }
+        ]
+    }
+    create_user(payload, db_uri)
+    cambridge_id =  ObjectId("606a02a9abdc3533093955ec")
+    print("\n")
+    print("2: CHECKING CREDENTIALS AT LOG IN for username: cambridgehacker")
+    payload = {
+        "_id": cambridge_id,
+        "username": "cambridgehacker",
+        "password" : "hack1234"
+    }
+    check_user_credentials(payload, db_uri)
+    print("\n")
+    print("3: SAVE TESLA STOCK SEARCH HISTORY FOR username:cambridgehacker...")
+    
+    payload = {
+        "_id":  ObjectId("606a02a9abdc3533093955ec"),
+        "symbol": "TSL",
+        "stock":"Tesla",
+        "price": "661.75 USD" #HPQ - Hewlett-Packard
+    }
     create_history(payload, db_uri)
-    # searches =  fetch_search_history()
-    # print(searches)
-    # print("BEFORE ADDING FRIENDS!")
-    # friends = fetch_friends_list(test_id, db_uri)
-    # add_friend(test_id, friend_id, db_uri)
-    # print("\n")
-    # print("AFTER ADDING FRIENDS!")
-    # friends = fetch_friends_list(test_id, db_uri)
-    # print("UPDATING PROFILE!")
-    # test_payload = {
-    #     "_id": "6068fada8ac8540613ea288c",
-    #     "investmentstyle": "short term"
-    # }
-    # print("\n")
-    # edit_profile(test_payload,db_uri)
-    print("TEST DONE!!")
+    print("\n")
+    print("Wait for 10 seconds before searching for another stock")
+    time.sleep(10)
+    print(" -  ADDING A NEW SEARCH FOR HPQ - Hewlett-Packard. ")
+    payload2 = {
+        "_id": ObjectId("606a02a9abdc3533093955ec"),
+        "symbol": "HPQ",
+        "stock":"Hewlett-Packard",
+        "price": "32.05 USD" #HPQ - Hewlett-Packard
+    }
+    create_history(payload2, db_uri)
+    print("\n")
+    print("Wait for 10 seconds before searching for another stock")
+    time.sleep(10)
+    print(" -  ADDING A NEW SEARCH FOR APPL - Apple Inc. ")
+    payload3 = {
+        "_id": ObjectId("606a02a9abdc3533093955ec"),
+        "symbol": "AAPL",
+        "stock":"Apple Inc",
+        "price": "123.00 USD" #HPQ - Hewlett-Packard
+    }
+    create_history(payload3, db_uri)
+    print("\n")
+    print("4: SEARCH FOR HISTORY...")
+    email = "hacker@cambridge"
+    searches =  fetch_search_history(email)
+    pprint(searches)
+    print("\n")
+    princeton_id = find_userid("hacker@princeton")
+    print("5: ADD FRIEND - cambridgehacker for username: princetonhacker..")
+    added_friend = add_friend(princeton_id, cambridge_id, db_uri)
+    print(added_friend)
+    print("\n")
+    print("6: FETCH FRIENDS for username: princetonhacker..")
+    friends = fetch_friends_list(princeton_id, db_uri)
+    print("Success. Look up updated record...")
+    updated_record = find_record(princeton_id, db_uri)
+    pprint(updated_record)
+    print("\n")
+    print("7: UPDATE PROFILE for username: cambridgehacker.. with payload: 'investmentstyle': 'value',  'investmenthorizon': 'short term' ")
+    test_payload = {
+        "_id": cambridge_id,
+        "investmentstyle": "value",
+        "investmenthorizon": "short term"
+    }
+    print("\n")
+    edit_profile(test_payload,db_uri)
+    updated_record = find_record(cambridge_id, db_uri)
+    pprint(updated_record)
+    
+    print("\n")
+    print("hacker@princeton SUCCESS!! ")
 
 
 
