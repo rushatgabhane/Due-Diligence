@@ -4,10 +4,14 @@
 
  DD - Due Diligence is a mobile application that enables users to learn about stocks and connecting with likeminded investors.
 
- ![DD Home Page](./img/home.png)
+**How Does it work?**
+
+![Process](./imh/graph.png)
+
+
 
 ## UI/UX 
-
+ ![DD Home Page](./img/home.png)
 - Sign up with your username, password and email address
 ![Sign Up Page](./img/signup.png)
 - Log in using your username and password 
@@ -16,6 +20,7 @@
 DD will match you with users with similar interests 
 ![DD Preference](./img/preference.png)
 - Connect 
+DD will suggest up to 3 users you can chat with. If you wish to connect with them you can add them to your frinds list!
 - Chat
 - Snap Stock! 
 
