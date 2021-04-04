@@ -9,6 +9,7 @@ import NaiveBayes as nb
 from constants import *
 import numpy as np
 import requests
+import random
 app = Flask(__name__)
 mongodb_pass = 'MyBiLU2HPTEYnoN5'
 db_name = "Main"
@@ -26,15 +27,29 @@ class User(db.Document):
     investmentstyle = db.StringField() #Choice of Value, Growth, Speculative
     investmenthorizon = db.StringField() #Choice of Day, Monthly, Annual, Long-Term
     favourites = db.DictField()
+    friends = db.DictField()
     def to_json(self): 
         return {
             "username": self.username,
             "email":self.email, #adding email address field to JSON
             "investmentstyle": self.investmentstyle, 
             "investmenthorizon": self.investmenthorizon,
-            "favourites": self.favourites
+            "favourites": self.favourites,
+            "friends": self.friends
         }
 
+class Chat(db.Document):
+    chatid = db.StringField()
+    content = db.DictField() 
+    participant1 = db.StringField()
+    participant2 = db.StringField()
+    def to_json(self): 
+        return { 
+            "chatid": self.chatid,
+            "content": self.content,
+            "participant1": self.participant1,
+            "participant2": self.participant2
+        }
 
 
 @app.route("/")
@@ -62,11 +77,10 @@ def register():
     favorites = request.form["favourites"]
     favlst = favorites.split(",")
     json = {'0':favlst[0], '1':favlst[1], '2':favlst[2]}
-    print(json)
     if User.objects(username = user).first(): 
         return make_response("That username already exists", 400)
     else:
-        newuser = User(username = user, password = sha256(passw.encode('utf-8')).hexdigest(), email = mail, investmentstyle = style, investmenthorizon = horizon, favourites = json)
+        newuser = User(username = user, password = sha256(passw.encode('utf-8')).hexdigest(), email = mail, investmentstyle = style, investmenthorizon = horizon, favourites = json, friends = {})
         newuser.save() 
     return make_response("success", 201)
 
@@ -103,7 +117,7 @@ clothingkeyword = ['Shirts', 'Pants', 'Clothes', "Socks", "Jeans", "Shoes"]
 educationkeyword = ['Book', 'Textbook', 'Ruler', 'Pencil', 'Pen', 'Eraser']
 planekeyword = ['Airplane', 'Helicopter', 'Rocket']
 @app.route("/analyzeimage", methods = ['POST'])
-def analyzeimage():  ##RECOMMENDATION SYSTEM, SEND IMAGE AS BODY
+def analyzeimage():  ##RECOMMENDATION SYSTEM, SEND IMAGE AS BOD
     ret = []
     client = vision.ImageAnnotatorClient()
     file = request.get_data() 
@@ -167,6 +181,25 @@ def analyzeimage():  ##RECOMMENDATION SYSTEM, SEND IMAGE AS BODY
             ret += res 
         response = app.response_class(response=json.dumps(ret), status=200, mimetype='application/json')
         return response
+
+
+@app.route("/createchat", methods = ['POST'])
+def createchat(): 
+    user = request.form["username"]
+    ticker = request.form["stockticker"]
+    thisuser = User.objects(username = user).first()
+    seconduser = ""
+    for user in User.objects(): 
+        if abs(int(user.investmenthorizon) - int(thisuser.investmenthorizon)) < 3: 
+            seconduser = user.username
+            break 
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k']
+    id = ''.join(random.choice(letters) for i in range(7))
+    newchat = Chat(chatid = id, content = {}, participant1 = thisuser.username, participant2 = seconduser)
+    newchat.save()
+    return make_response("chat created", 200)
+
+
 
 
 
