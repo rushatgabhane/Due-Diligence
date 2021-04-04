@@ -43,12 +43,14 @@ class User(db.Document):
 class Chat(db.Document):
     chatid = db.StringField()
     content = db.DictField() 
+    stock = db.StringField()
     participant1 = db.StringField()
     participant2 = db.StringField()
     def to_json(self): 
         return { 
             "chatid": self.chatid,
             "content": self.content,
+            "stock": self.stock,
             "participant1": self.participant1,
             "participant2": self.participant2
         }
@@ -185,7 +187,7 @@ def analyzeimage():  ##RECOMMENDATION SYSTEM, SEND IMAGE AS BOD
         return response
 
 
-@app.route("/createchat", methods = ['POST'])
+@app.route("/createchat", methods = ['POST']) #RETURNS CHATID AS RESPONSE
 def createchat(): 
     user = request.form["username"]
     ticker = request.form["stockticker"]
@@ -197,10 +199,25 @@ def createchat():
             break 
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k']
     id = ''.join(random.choice(letters) for i in range(7))
-    newchat = Chat(chatid = id, content = {}, participant1 = thisuser.username, participant2 = seconduser)
+    newchat = Chat(chatid = id, content = {}, stock = ticker, participant1 = thisuser.username, participant2 = seconduser)
     newchat.save()
-    return make_response("chat created", 200)
+    return make_response(id, 200)
 
+
+@app.route("/appendchat", methods = ["POST"]) 
+def appendchat(): 
+    id = request.form["chatid"]
+    user = request.form["user"]
+    message = request.form["message"]
+    thechat = Chat.objects(chatid = id)
+    ticker = thechat.stock 
+    if message == "getprice":
+        response = requests.get('https://cloud.iexapis.com/stable/stock/'+ ticker +'/price?token=sk_ac997761af19455d8588775994c0b03f')
+        json_response = response.json()
+        print(json_response[0])
+    if message == "earnings": 
+        print("HI")
+    return 
 
 
 
